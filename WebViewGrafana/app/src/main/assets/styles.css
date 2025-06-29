@@ -1,0 +1,229 @@
+/* Variabili colori */
+:root {
+    --primary-color: #43cea2;
+    --secondary-color: #185a9d;
+    --text-color: #333;
+    --light-text: #666;
+    --background-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    --card-background: rgba(255, 255, 255, 0.95);
+}
+
+/* Stili generali */
+body {
+    background: var(--background-gradient);
+    min-height: 100vh;
+    color: var(--text-color);
+    padding-top: 60px;
+}
+
+/* Stili Dashboard */
+.container {
+    background: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--card-background) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: var(--secondary-color) !important;
+    font-weight: 600;
+}
+
+.nav-link {
+    color: var(--text-color) !important;
+    transition: all 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color) !important;
+}
+
+/* Titoli */
+.dashboard-title {
+    text-align: center;
+    margin: 30px 0;
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.section-title {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.panel-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+/* Carosello */
+.carousel-item {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.grafana-panel {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Controlli carosello */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: var(--secondary-color);
+    opacity: 1;
+}
+
+/* Indicatori carosello */
+.carousel-indicators {
+    bottom: -40px;
+}
+
+.carousel-indicators button {
+    background-color: var(--primary-color);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--secondary-color);
+}
+
+/* Responsive */
+section {
+    margin-top: 60px;
+    padding-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .carousel-item {
+        padding: 10px;
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .panel-title {
+        font-size: 1.2rem;
+    }
+
+    .grafana-panel {
+        height: 300px;
+    }
+}
+
+/* Controlli Pompa */
+.pump-controls .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.pump-controls .card-title {
+    color: var(--secondary-color);
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+}
+
+.status-indicator.active {
+    background-color: #28a745;
+}
+
+.pump-status {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.status-text {
+    color: var(--light-text);
+    margin-right: 5px;
+}
+
+.status-value {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.pump-buttons .btn {
+    min-width: 100px;
+}
+
+.pump-buttons .btn:hover {
+    transform: translateY(-2px);
+}
+
+.pump-buttons .btn:disabled {
+    opacity: 0.7;
+    transform: none;
+}
+
+/* Responsive per i controlli della pompa */
+@media (max-width: 768px) {
+    .pump-controls .card-body {
+        padding: 15px;
+    }
+
+    .pump-status {
+        margin-bottom: 10px;
+    }
+
+    .pump-controls .card-title {
+        font-size: 1.1rem;
+    }
+} 

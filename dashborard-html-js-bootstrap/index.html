@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <title>Dashboard Serra</title>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" tabindex="0">
+    <!-- navbar -->
+    <nav id="navbar-example2" class="navbar px-3 mb-3 fixed-top">
+        <a class="navbar-brand" href="#"><i class="fas fa-leaf me-2"></i>Serra</a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="#temperatura"><i class="fas fa-temperature-high me-1"></i>Temperatura</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#umidita"><i class="fas fa-tint me-1"></i>Umidità</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#acqua"><i class="fas fa-water me-1"></i>Livello Acqua</a>
+            </li>
+            <li class="nav-item ms-2">
+                <a class="nav-link" href="login.html"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1 class="dashboard-title"><i class="fas fa-chart-line me-2"></i>Dashboard Monitoraggio Serra</h1>
+        
+        <!-- Sezione Temperatura -->
+        <section id="temperatura" class="mb-5">
+            <h2 class="section-title"><i class="fas fa-temperature-high me-2"></i>Temperatura Ambiente</h2>
+            <div id="temperaturaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#temperaturaCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#temperaturaCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#temperaturaCarousel" data-bs-slide-to="2"></button>
+                </div>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <h3 class="panel-title">Temperatura Giornaliera</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/temperatura-ambiente?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Temperatura Giornaliera">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Temperatura Settimanale</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/temperatura-ambiente?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=2&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Temperatura Settimanale">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Temperatura Mensile</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/temperatura-ambiente?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=3&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Temperatura Mensile">
+                        </iframe>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#temperaturaCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Precedente</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#temperaturaCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Successivo</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Sezione Umidità -->
+        <section id="umidita" class="mb-5">
+            <h2 class="section-title"><i class="fas fa-tint me-2"></i>Umidità del Terreno</h2>
+            <div id="umiditaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#umiditaCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#umiditaCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#umiditaCarousel" data-bs-slide-to="2"></button>
+                </div>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <h3 class="panel-title">Umidità Giornaliera</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/umidita-terreno?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Umidità Giornaliera">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Umidità Settimanale</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/umidita-terreno?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=2&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Umidità Settimanale">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Umidità Mensile</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/umidita-terreno?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=3&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Umidità Mensile">
+                        </iframe>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#umiditaCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Precedente</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#umiditaCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Successivo</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Sezione Livello Acqua -->
+        <section id="acqua" class="mb-5">
+            <h2 class="section-title"><i class="fas fa-water me-2"></i>Livello Acqua Serbatoio</h2>
+            
+            <!-- Controlli Pompa -->
+            <div class="pump-controls mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3"><i class="fas fa-pump me-2"></i>Controllo Pompa</h3>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="pump-status">
+                                <span id="pumpstat" class="status-indicator"></span>
+                                <span class="status-text ms-2">Stato: </span>
+                                <span id="stato" class="status-value">Pompa Inattiva</span>
+                            </div>
+                            <div class="pump-buttons">
+                                <button onclick="attiva()" class="btn btn-success me-2" id="startPump">
+                                    <i class="fas fa-play me-1"></i>Avvia
+                                </button>
+                                <button onclick="stop()" class="btn btn-danger" id="stopPump">
+                                    <i class="fas fa-stop me-1"></i>Ferma
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="acquaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#acquaCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#acquaCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#acquaCarousel" data-bs-slide-to="2"></button>
+                </div>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <h3 class="panel-title">Livello Acqua Giornaliero</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/livello-acqua?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Livello Acqua Giornaliero">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Livello Acqua Settimanale</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/livello-acqua?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=2&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Livello Acqua Settimanale">
+                        </iframe>
+                    </div>
+                    <div class="carousel-item">
+                        <h3 class="panel-title">Livello Acqua Mensile</h3>
+                        <iframe
+                            src="http://localhost:3000/d-solo/1c1f173d-3be8-44f2-9260-d415bb383ba0/livello-acqua?orgId=1&from=1704063600000&to=1704668400000&timezone=browser&panelId=3&__feature.dashboardSceneSolo"
+                            class="grafana-panel"
+                            title="Grafico Livello Acqua Mensile">
+                        </iframe>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#acquaCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Precedente</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#acquaCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Successivo</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    
+<!-- ------------------------------------------------- -->
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const socket = new WebSocket("ws://localhost:1880/ws/pulsante");
+
+    socket.onopen = function() {
+      console.log("WebSocket connesso");
+    };
+
+    socket.onmessage = function(event) {
+      try {
+        const msg = JSON.parse(event.data);
+        const payload = msg.payload;
+        const div = document.getElementById("stato");
+        div.innerText = payload;
+
+        // Controlla direttamente il valore del payload ricevuto
+        if (payload === "Pompa In Spegnimento") {
+          PompaInattiva();
+        }else if (payload === "Pompa In Attivazione") {
+          PompaAttiva();
+        }
+      } catch (e) {
+        console.error("Errore parsing JSON:", e);
+      }
+    };
+
+    function PompaAttiva() {
+        document.getElementById("pumpstat").style.backgroundColor = "#FFDE21";
+        setTimeout(() => {
+        document.getElementById("stato").innerText = "Pompa Attiva";
+        document.getElementById("pumpstat").style.backgroundColor = "#198754";
+    }, 5000);
+    }
+
+    function PompaInattiva() {
+        document.getElementById("pumpstat").style.backgroundColor = "#FFDE21";
+        setTimeout(() => {
+        document.getElementById("stato").innerText = "Pompa Inattiva";
+        document.getElementById("pumpstat").style.backgroundColor = "#dc3545";
+    }, 5000);
+    }
+
+    socket.onerror = function(error) {
+      console.error("Errore WebSocket:", error);
+    };
+
+    function attiva() {
+        const statoAttuale = document.getElementById("stato").innerText;
+        if (statoAttuale === "Pompa Attiva" || statoAttuale === "Pompa In Attivazione") {
+            alert("La pompa è già attiva o in attivazione!");
+            return;
+        }
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send("attiva");
+      } else {
+        alert("WebSocket non connesso!");
+      }
+    }
+
+    function stop() {
+        const statoAttuale = document.getElementById("stato").innerText;
+        if (statoAttuale === "Pompa Inattiva" || statoAttuale === "Pompa In Spegnimento") {
+            alert("La pompa è già inattiva o in spegnimento!");
+            return;
+        }
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send("stop");
+      } else {
+        alert("WebSocket non connesso!");
+      }
+    }
+    </script>
+</body>
+</html>

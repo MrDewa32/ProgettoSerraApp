@@ -1,0 +1,64 @@
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+
+# Sensitive Data
+*.env
+.env*
+config.properties
+secrets.properties
+credentials.json
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*~
+*.swp
+*.tmp
+
+# Documentation files
+*.pdf
+*.docx
+*.doc
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 

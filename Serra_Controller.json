@@ -1,0 +1,1157 @@
+[
+    {
+        "id": "5cab82883422a12c",
+        "type": "tab",
+        "label": "Sensori Serra1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b1e773cfbf2e0c47",
+        "type": "tab",
+        "label": "Sensori Serra2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "437097dd1cd0e785",
+        "type": "tab",
+        "label": "Sensori Serra3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "20f01cb3a055be53",
+        "type": "tab",
+        "label": "Sistema Controllo Pompa",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "77c987c41b033f78",
+        "type": "mqtt-broker",
+        "name": "Meteo",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9ac2f0f6da809a63",
+        "type": "postgresdb",
+        "name": "Serra",
+        "hostname": "localhost",
+        "hostnameType": "str",
+        "port": "5432",
+        "portType": "str",
+        "db": "Serra",
+        "dbType": "str",
+        "ssl": "false",
+        "sslType": "bool",
+        "ignore_check_ssl": "false",
+        "ignore_check_sslType": "bool",
+        "ssl_path": "",
+        "ssl_pathType": "str",
+        "user": "postgres",
+        "userType": "str",
+        "password": "__PWRD__",
+        "passwordType": "str",
+        "passwordContext": ""
+    },
+    {
+        "id": "592017ba573c0db9",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "49fe2b45a60b5262",
+        "type": "websocket-listener",
+        "path": "/ws/pulsante",
+        "wholemsg": "true"
+    },
+    {
+        "id": "0bd48c2a1e19d7e1",
+        "type": "inject",
+        "z": "5cab82883422a12c",
+        "name": "Temperatura1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (20 + (random() * 10), date_trunc('second', now()), 1, 'temperatura');\"\t",
+        "payloadType": "jsonata",
+        "x": 120,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c8b14060c7d27ac",
+        "type": "mqtt out",
+        "z": "5cab82883422a12c",
+        "name": "Temp",
+        "topic": "meteo/temperatura1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 290,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "025caa444db11c8d",
+        "type": "mqtt in",
+        "z": "5cab82883422a12c",
+        "name": "Temp",
+        "topic": "meteo/temperatura1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "3251470fa4af888f",
+                "e28cac9f04cc492a"
+            ]
+        ]
+    },
+    {
+        "id": "e28cac9f04cc492a",
+        "type": "postgres",
+        "z": "5cab82883422a12c",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Temp",
+        "output": false,
+        "outputs": 0,
+        "x": 330,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3251470fa4af888f",
+        "type": "debug",
+        "z": "5cab82883422a12c",
+        "name": "debug Temp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "d72a202adc93e671",
+        "type": "inject",
+        "z": "5cab82883422a12c",
+        "name": "Umidita1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (50 + (random() * 30), date_trunc('second', now()), 4, 'umidità');\"\t",
+        "payloadType": "jsonata",
+        "x": 100,
+        "y": 200,
+        "wires": [
+            [
+                "f56a62b2a30390eb"
+            ]
+        ]
+    },
+    {
+        "id": "f56a62b2a30390eb",
+        "type": "mqtt out",
+        "z": "5cab82883422a12c",
+        "name": "Hum",
+        "topic": "meteo/umidita1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 250,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1699263899f08149",
+        "type": "mqtt in",
+        "z": "5cab82883422a12c",
+        "name": "Hum",
+        "topic": "meteo/umidita1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 260,
+        "wires": [
+            [
+                "7126e0c0efa87c1c",
+                "ae035b3c11aa6497"
+            ]
+        ]
+    },
+    {
+        "id": "7126e0c0efa87c1c",
+        "type": "postgres",
+        "z": "5cab82883422a12c",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Hum",
+        "output": false,
+        "outputs": 0,
+        "x": 330,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ae035b3c11aa6497",
+        "type": "debug",
+        "z": "5cab82883422a12c",
+        "name": "debug Hum",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "bc1c587a8685d4c6",
+        "type": "inject",
+        "z": "5cab82883422a12c",
+        "name": "Acqua1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (70 + (random() * 20), date_trunc('second', now()), 5, 'livello_acqua');\"\t",
+        "payloadType": "jsonata",
+        "x": 90,
+        "y": 360,
+        "wires": [
+            [
+                "7570429324e50a02"
+            ]
+        ]
+    },
+    {
+        "id": "7570429324e50a02",
+        "type": "mqtt out",
+        "z": "5cab82883422a12c",
+        "name": "Water",
+        "topic": "meteo/acqua1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 250,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6827b1aaf2f5a5ef",
+        "type": "mqtt in",
+        "z": "5cab82883422a12c",
+        "name": "Water",
+        "topic": "meteo/acqua1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 420,
+        "wires": [
+            [
+                "4a43066e3dd64916",
+                "b406c77a1c0f49f6"
+            ]
+        ]
+    },
+    {
+        "id": "4a43066e3dd64916",
+        "type": "postgres",
+        "z": "5cab82883422a12c",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Water",
+        "output": false,
+        "outputs": 0,
+        "x": 330,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "b406c77a1c0f49f6",
+        "type": "debug",
+        "z": "5cab82883422a12c",
+        "name": "debug Water",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "1f2e3113f5fe078d",
+        "type": "inject",
+        "z": "5cab82883422a12c",
+        "name": "Temp MAX",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (35, date_trunc('second', now()), 1, 'temperatura');\"",
+        "payloadType": "jsonata",
+        "x": 480,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bc20b6415e32f0c3",
+        "type": "inject",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Temperatura2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (20 + (random() * 10), date_trunc('second', now()), 6, 'temperatura');\"\t",
+        "payloadType": "jsonata",
+        "x": 140,
+        "y": 40,
+        "wires": [
+            [
+                "968130570a4bf959"
+            ]
+        ]
+    },
+    {
+        "id": "968130570a4bf959",
+        "type": "mqtt out",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Temp",
+        "topic": "meteo/temperatura2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 290,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "713eefb4bf14985a",
+        "type": "mqtt in",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Temp",
+        "topic": "meteo/temperatura2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "4f64a93718cc8dbc",
+                "f090a38495f304ab"
+            ]
+        ]
+    },
+    {
+        "id": "4f64a93718cc8dbc",
+        "type": "postgres",
+        "z": "b1e773cfbf2e0c47",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Temp",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "f090a38495f304ab",
+        "type": "debug",
+        "z": "b1e773cfbf2e0c47",
+        "name": "debug Temp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "159ef660e368561b",
+        "type": "inject",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Umidita2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (50 + (random() * 30), date_trunc('second', now()), 2, 'umidità');\"\t",
+        "payloadType": "jsonata",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "d1dff8be7156c2f0"
+            ]
+        ]
+    },
+    {
+        "id": "d1dff8be7156c2f0",
+        "type": "mqtt out",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Hum",
+        "topic": "meteo/umidita2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 270,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "345506392e779043",
+        "type": "mqtt in",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Hum",
+        "topic": "meteo/umidita2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 260,
+        "wires": [
+            [
+                "83a483f5cec4580f",
+                "a18504cf3ea50b6f"
+            ]
+        ]
+    },
+    {
+        "id": "83a483f5cec4580f",
+        "type": "postgres",
+        "z": "b1e773cfbf2e0c47",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Hum",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a18504cf3ea50b6f",
+        "type": "debug",
+        "z": "b1e773cfbf2e0c47",
+        "name": "debug Hum",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e55a0634edeb1a10",
+        "type": "inject",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Acqua2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (70 + (random() * 20), date_trunc('second', now()), 7, 'livello_acqua');\"\t",
+        "payloadType": "jsonata",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "14e25b2662dfe4e8"
+            ]
+        ]
+    },
+    {
+        "id": "14e25b2662dfe4e8",
+        "type": "mqtt out",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Water",
+        "topic": "meteo/acqua2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 270,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "0cfa97a34d4671a9",
+        "type": "mqtt in",
+        "z": "b1e773cfbf2e0c47",
+        "name": "Water",
+        "topic": "meteo/acqua2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "b9549726db28b77c",
+                "e1d8824bbfaa21fb"
+            ]
+        ]
+    },
+    {
+        "id": "b9549726db28b77c",
+        "type": "postgres",
+        "z": "b1e773cfbf2e0c47",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Water",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e1d8824bbfaa21fb",
+        "type": "debug",
+        "z": "b1e773cfbf2e0c47",
+        "name": "debug Water",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8b59113eeb5bda07",
+        "type": "inject",
+        "z": "437097dd1cd0e785",
+        "name": "Temperatura3",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (20 + (random() * 10), date_trunc('second', now()), 8, 'temperatura');\"\t",
+        "payloadType": "jsonata",
+        "x": 140,
+        "y": 40,
+        "wires": [
+            [
+                "6988f041d54fac67"
+            ]
+        ]
+    },
+    {
+        "id": "6988f041d54fac67",
+        "type": "mqtt out",
+        "z": "437097dd1cd0e785",
+        "name": "Temp",
+        "topic": "meteo/temperatura3",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 290,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "244a04e9b604bc91",
+        "type": "mqtt in",
+        "z": "437097dd1cd0e785",
+        "name": "Temp",
+        "topic": "meteo/temperatura3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "2036d91c6fc07608",
+                "8d7b7785b0831ecf"
+            ]
+        ]
+    },
+    {
+        "id": "2036d91c6fc07608",
+        "type": "postgres",
+        "z": "437097dd1cd0e785",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Temp",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8d7b7785b0831ecf",
+        "type": "debug",
+        "z": "437097dd1cd0e785",
+        "name": "debug Temp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "bdcb926edbdd69f3",
+        "type": "inject",
+        "z": "437097dd1cd0e785",
+        "name": "Umidita3",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (50 + (random() * 30), date_trunc('second', now()), 9, 'umidità');\"\t",
+        "payloadType": "jsonata",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "c053960ef66ae8c0"
+            ]
+        ]
+    },
+    {
+        "id": "c053960ef66ae8c0",
+        "type": "mqtt out",
+        "z": "437097dd1cd0e785",
+        "name": "Hum",
+        "topic": "meteo/umidita3",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 270,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ccdbf08fe76ea8a8",
+        "type": "mqtt in",
+        "z": "437097dd1cd0e785",
+        "name": "Hum",
+        "topic": "meteo/umidita3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 260,
+        "wires": [
+            [
+                "82b4db95b902ab8a",
+                "5e5360538bf15fe8"
+            ]
+        ]
+    },
+    {
+        "id": "82b4db95b902ab8a",
+        "type": "postgres",
+        "z": "437097dd1cd0e785",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Hum",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5e5360538bf15fe8",
+        "type": "debug",
+        "z": "437097dd1cd0e785",
+        "name": "debug Hum",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "51dd37c96c94f859",
+        "type": "inject",
+        "z": "437097dd1cd0e785",
+        "name": "Acqua3",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"INSERT INTO misurazioni (valore, timestamp, sensoreid, tipo)\tVALUES (70 + (random() * 20), date_trunc('second', now()), 3, 'livello_acqua');\"\t",
+        "payloadType": "jsonata",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "4e8615ac6a458c73"
+            ]
+        ]
+    },
+    {
+        "id": "4e8615ac6a458c73",
+        "type": "mqtt out",
+        "z": "437097dd1cd0e785",
+        "name": "Water",
+        "topic": "meteo/acqua3",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77c987c41b033f78",
+        "x": 270,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3199a33187b9d3dc",
+        "type": "mqtt in",
+        "z": "437097dd1cd0e785",
+        "name": "Water",
+        "topic": "meteo/acqua3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "77c987c41b033f78",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "1ebbad8ce78b9e17",
+                "07889dfb7529505b"
+            ]
+        ]
+    },
+    {
+        "id": "1ebbad8ce78b9e17",
+        "type": "postgres",
+        "z": "437097dd1cd0e785",
+        "postgresdb": "9ac2f0f6da809a63",
+        "name": "Inserimento Water",
+        "output": false,
+        "outputs": 0,
+        "x": 350,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "07889dfb7529505b",
+        "type": "debug",
+        "z": "437097dd1cd0e785",
+        "name": "debug Water",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "88d750cf771f8399",
+        "type": "websocket in",
+        "z": "20f01cb3a055be53",
+        "name": "",
+        "server": "49fe2b45a60b5262",
+        "client": "",
+        "x": 120,
+        "y": 40,
+        "wires": [
+            [
+                "a8890c668dc05d05",
+                "e10de9ba9cea9de0"
+            ]
+        ]
+    },
+    {
+        "id": "295908146ed63f62",
+        "type": "websocket out",
+        "z": "20f01cb3a055be53",
+        "name": "",
+        "server": "49fe2b45a60b5262",
+        "client": "",
+        "x": 570,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a8890c668dc05d05",
+        "type": "function",
+        "z": "20f01cb3a055be53",
+        "name": "Controllo Pompa",
+        "func": "if(msg.payload == \"attiva\"){\n    msg.payload = \"Pompa In Attivazione\"\n} else if(msg.payload == \"stop\"){\n    msg.payload = \"Pompa In Spegnimento\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 40,
+        "wires": [
+            [
+                "295908146ed63f62",
+                "e10de9ba9cea9de0"
+            ]
+        ]
+    },
+    {
+        "id": "e10de9ba9cea9de0",
+        "type": "debug",
+        "z": "20f01cb3a055be53",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 140,
+        "wires": []
+    }
+]
