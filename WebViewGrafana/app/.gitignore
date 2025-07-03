@@ -1,1 +1,42 @@
+# ===== APP MODULE GITIGNORE =====
+
+# Build output
 /build
+
+# Generated files
+/generated
+
+# Local test databases
+*.db
+*.sqlite
+test.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local configuration
+local.properties
+
+# Proguard mapping files
+mapping.txt
+
+# Test output
+test-output/
+
+# Debug files
+*.hprof
+
+# Local APK files
+*.apk
+*.aab
+
+# Database schemas (Room)
+schemas/
+
+# Backup files
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -26,6 +26,20 @@
             <li class="nav-item">
                 <a class="nav-link" href="#acqua"><i class="fas fa-water me-1"></i>Livello Acqua</a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user me-1"></i><span id="currentUser">Utente</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="showUserInfo()">
+                        <i class="fas fa-info-circle me-2"></i>Info Account
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
     
@@ -203,6 +217,7 @@
     </div>
 
     <script>
+        // ===== FUNZIONI CONTROLLO POMPA =====
         // Funzione per aggiornare lo stato della pompa
         function updatePumpStatus(isActive) {
             const statusIndicator = document.getElementById('pumpstat');
@@ -214,6 +229,138 @@
             } else {
                 statusIndicator.classList.remove('active');
                 statusText.textContent = 'Pompa Inattiva';
+            }
+        }
+        
+        // ===== FUNZIONI GESTIONE UTENTE =====
+        // Funzione per effettuare il logout
+        function logout() {
+            if (confirm('Sei sicuro di voler uscire?')) {
+                // Chiama la funzione Android per il logout
+                if (typeof Android !== 'undefined' && Android.logout) {
+                    Android.logout();
+                } else {
+                    // Fallback per test
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+        
+        // Funzione per mostrare info utente
+        function showUserInfo() {
+            let userInfo = 'Utente non identificato';
+            
+            if (typeof Android !== 'undefined' && Android.getCurrentUser) {
+                const currentUser = Android.getCurrentUser();
+                if (currentUser) {
+                    userInfo = `Utente: ${currentUser}`;
+                }
+            }
+            
+            alert(userInfo);
+        }
+        
+        // Funzione per caricare info utente nella navbar
+        function loadUserInfo() {
+            const userElement = document.getElementById('currentUser');
+            
+            if (typeof Android !== 'undefined' && Android.getCurrentUser) {
+                const currentUser = Android.getCurrentUser();
+                if (currentUser) {
+                    // Estrai solo la parte prima della @
+                    const userName = currentUser.split('@')[0];
+                    userElement.textContent = userName.charAt(0).toUpperCase() + userName.slice(1);
+                } else {
+                    userElement.textContent = 'Utente';
+                }
+            } else {
+                userElement.textContent = 'Test User';
+            }
+        }
+        
+        // Funzione per verificare se l'utente è loggato
+        function checkAuthStatus() {
+            if (typeof Android !== 'undefined' && Android.isUserLoggedIn) {
+                const isLoggedIn = Android.isUserLoggedIn();
+                if (!isLoggedIn) {
+                    // Redirect al login se non loggato
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+        
+        // ===== FUNZIONI UTILITÀ =====
+        // Funzione per mostrare notifiche
+        function showNotification(message, type = 'info') {
+            // Crea un elemento di notifica
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = `
+                top: 80px;
+                right: 20px;
+                z-index: 1060;
+                min-width: 300px;
+            `;
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Rimuovi automaticamente dopo 5 secondi
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+        
+        // Funzione per aggiornare l'ora dell'ultimo aggiornamento
+        function updateLastRefresh() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('it-IT');
+            console.log(`Dashboard aggiornata alle: ${timeString}`);
+        }
+        
+        // ===== INIZIALIZZAZIONE =====
+        // Funzione di inizializzazione al caricamento della pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            // Controlla lo stato di autenticazione
+            checkAuthStatus();
+            
+            // Carica le informazioni utente
+            loadUserInfo();
+            
+            // Aggiorna l'ora dell'ultimo refresh
+            updateLastRefresh();
+            
+            // Mostra notifica di benvenuto
+            setTimeout(() => {
+                showNotification('Dashboard caricata con successo!', 'success');
+            }, 1000);
+            
+            // Aggiorna ogni 30 secondi l'ora dell'ultimo refresh
+            setInterval(updateLastRefresh, 30000);
+        });
+        
+        // ===== GESTIONE ERRORI =====
+        // Gestione errori per iframe Grafana
+        window.addEventListener('error', function(e) {
+            console.error('Errore nella dashboard:', e.error);
+            showNotification('Errore nel caricamento di alcuni grafici. Riprova più tardi.', 'warning');
+        });
+        
+        // Gestione delle notifiche da Android
+        function onAndroidNotification(message, type = 'info') {
+            showNotification(message, type);
+        }
+        
+        // Callback per stato pompa da Android
+        function onPumpStatusUpdate(isActive, message) {
+            updatePumpStatus(isActive);
+            if (message) {
+                showNotification(message, isActive ? 'success' : 'info');
             }
         }
     </script>

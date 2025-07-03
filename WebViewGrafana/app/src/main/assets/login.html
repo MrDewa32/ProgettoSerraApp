@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Serra Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-header i {
+      font-size: 3rem;
+      color: #43cea2;
+      margin-bottom: 1rem;
+    }
+    .login-header h2 {
+      color: #333;
+      font-weight: 600;
+    }
+    .form-control {
+      border-radius: 10px;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      transition: all 0.3s;
+    }
+    .form-control:focus {
+      border-color: #43cea2;
+      box-shadow: 0 0 0 0.2rem rgba(67, 206, 162, 0.25);
+    }
+    .btn-login {
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      border: none;
+      padding: 0.8rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .password-container {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      z-index: 10;
+    }
+    .forgot-password {
+      text-align: right;
+      margin-top: -15px;
+      margin-bottom: 15px;
+    }
+    .forgot-password a {
+      color: #185a9d;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .forgot-password a:hover {
+      color: #43cea2;
+    }
+    .alert {
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .loading-spinner {
+      display: none;
+      margin-right: 0.5rem;
+    }
+    .input-group-text {
+      background: rgba(67, 206, 162, 0.1);
+      border: 1px solid #ddd;
+      border-right: none;
+    }
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+    .form-control.is-valid {
+      border-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <i class="fas fa-leaf"></i>
+      <h2>Serra Dashboard</h2>
+      <p class="text-muted">Accedi al tuo account</p>
+    </div>
+    
+    <!-- Area per messaggi di errore/successo -->
+    <div id="messageArea"></div>
+    
+    <form id="loginForm">
+      <div class="mb-4">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control" id="email" placeholder="tuaemail@email.com" required>
+        </div>
+        <div class="invalid-feedback" id="emailError"></div>
+      </div>
+      
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="password-container">
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="password" placeholder="Inserisci la password" required>
+            <span class="password-toggle" onclick="togglePassword()">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <div class="invalid-feedback" id="passwordError"></div>
+      </div>
+      
+      <div class="forgot-password">
+        <a href="#" onclick="forgotPassword()">Password dimenticata?</a>
+      </div>
+      
+      <button type="submit" class="btn btn-primary btn-login w-100" id="loginButton">
+        <span class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </span>
+        <i class="fas fa-sign-in-alt me-2"></i>Accedi
+      </button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS + Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  
+  <script>
+    // Variabili globali
+    let isLoading = false;
+    
+    // Funzione per mostrare/nascondere la password
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const icon = document.querySelector('.password-toggle i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+    
+    // Funzione per mostrare messaggi
+    function showMessage(message, type = 'danger') {
+      const messageArea = document.getElementById('messageArea');
+      messageArea.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+    }
+    
+    // Funzione per validare email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Funzione per validare il form
+    function validateForm() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      
+      let isValid = true;
+      
+      // Reset validazione
+      emailInput.classList.remove('is-invalid', 'is-valid');
+      passwordInput.classList.remove('is-invalid', 'is-valid');
+      
+      // Validazione email
+      if (!email) {
+        emailInput.classList.add('is-invalid');
+        document.getElementById('emailError').textContent = 'Email è richiesta';
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        emailInput.classList.add('is-invalid');
+        document.getElementById('emailError').textContent = 'Formato email non valido';
+        isValid = false;
+      } else {
+        emailInput.classList.add('is-valid');
+      }
+      
+      // Validazione password
+      if (!password) {
+        passwordInput.classList.add('is-invalid');
+        document.getElementById('passwordError').textContent = 'Password è richiesta';
+        isValid = false;
+      } else if (password.length < 6) {
+        passwordInput.classList.add('is-invalid');
+        document.getElementById('passwordError').textContent = 'Password deve essere almeno 6 caratteri';
+        isValid = false;
+      } else {
+        passwordInput.classList.add('is-valid');
+      }
+      
+      return isValid;
+    }
+    
+    // Funzione per impostare stato di caricamento
+    function setLoading(loading) {
+      isLoading = loading;
+      const button = document.getElementById('loginButton');
+      const spinner = document.querySelector('.loading-spinner');
+      
+      if (loading) {
+        button.disabled = true;
+        spinner.style.display = 'inline-block';
+      } else {
+        button.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+    
+    // Funzione per gestire il login
+    async function handleLogin(email, password) {
+      try {
+        setLoading(true);
+        
+        // Simuliamo una chiamata di login
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Chiamata all'interfaccia Android per il login
+        if (typeof Android !== 'undefined' && Android.performLogin) {
+          const result = Android.performLogin(email, password);
+          
+          if (result === 'success') {
+            showMessage('Login effettuato con successo!', 'success');
+            setTimeout(() => {
+              // Naviga alla dashboard
+              window.location.href = 'dashboard.html';
+            }, 1500);
+          } else {
+            showMessage('Credenziali non valide. Riprova.', 'danger');
+          }
+        } else {
+          // Fallback per test senza Android
+          if (email === 'admin@serra.com' && password === 'password') {
+            showMessage('Login effettuato con successo!', 'success');
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 1500);
+          } else {
+            showMessage('Credenziali non valide. Riprova.', 'danger');
+          }
+        }
+      } catch (error) {
+        console.error('Errore durante il login:', error);
+        showMessage('Errore durante il login. Riprova.', 'danger');
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    // Funzione per password dimenticata
+    function forgotPassword() {
+      if (typeof Android !== 'undefined' && Android.forgotPassword) {
+        Android.forgotPassword();
+      } else {
+        showMessage('Funzione non implementata in modalità test.', 'info');
+      }
+    }
+    
+    // Event listener per il form
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (isLoading) return;
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      
+      if (validateForm()) {
+        handleLogin(email, password);
+      }
+    });
+    
+    // Event listener per rimuovere validazione durante la digitazione
+    document.getElementById('email').addEventListener('input', function() {
+      if (this.classList.contains('is-invalid')) {
+        this.classList.remove('is-invalid');
+      }
+    });
+    
+    document.getElementById('password').addEventListener('input', function() {
+      if (this.classList.contains('is-invalid')) {
+        this.classList.remove('is-invalid');
+      }
+    });
+    
+    // Callback per risultati da Android
+    function onLoginResult(success, message) {
+      if (success) {
+        showMessage(message || 'Login effettuato con successo!', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
+      } else {
+        showMessage(message || 'Errore durante il login.', 'danger');
+      }
+      setLoading(false);
+    }
+    
+    // Funzione per essere chiamata da Android
+    function setLoginStatus(status, message) {
+      onLoginResult(status === 'success', message);
+    }
+    
+    // Inizializzazione
+    document.addEventListener('DOMContentLoaded', function() {
+      // Controlla se ci sono credenziali salvate
+      if (typeof Android !== 'undefined' && Android.checkSavedCredentials) {
+        const savedCredentials = Android.checkSavedCredentials();
+        if (savedCredentials) {
+          const creds = JSON.parse(savedCredentials);
+          if (creds.email) {
+            document.getElementById('email').value = creds.email;
+          }
+        }
+      }
+      
+      // Focus sul primo campo
+      document.getElementById('email').focus();
+    });
+  </script>
+</body>
+</html> 
